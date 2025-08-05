@@ -14,10 +14,18 @@ export class CompleteTaskCommand extends AbstractCommand {
   }
 
   execute(): void {
-    // TODO
+    const task = this.taskList
+      .getAllTasks()
+      .find((task) => task.id === this.taskId);
+    if (task) {
+      this.previousState = task.completed;
+      this.taskList.completeTask(this.taskId, this.completed);
+    }
   }
 
   undo(): void {
-    // TODO
+    if (this.previousState !== undefined) {
+      this.taskList.completeTask(this.taskId, this.previousState);
+    }
   }
 }
